@@ -1,5 +1,4 @@
 
-
 /*
 Janeiro
 salario: 3000
@@ -24,7 +23,7 @@ alimentação:1000
 */
 /*
 Março
-salario: 3000
+salario: 4000
 aluguel:1200
 conta de luz:250
 conta de água:100
@@ -35,23 +34,28 @@ alimentação:1000
 */
 
 
-function calcularJuros(valor){
-    console.log(valor *0.1);
-    return valor * 0.1;
-}
-function calcularRendimentos(valor){
-    return valor * 0.005;
+function arredondar(valor){
+    return Math.round(valor*100)/100;
 }
 
-function calcularSaldo(salario,aluguel,contaDeAgua,contaDeLuz,internet,transporte,lazer,alimentacao){
-    let saldo=salario-aluguel-contaDeAgua-contaDeLuz-internet-transporte-lazer-transporte+alimentacao;
-    let saldoNegativo=saldo<0
+function calcularJuros(valor){
+    return arredondar(valor * 0.1);
+}
+function calcularRendimentos(valor){
+    return arredondar(valor * 0.005);
+}
+
+
+function calcularSaldo(mes,saldoIncial=0,salario,aluguel,contaDeAgua,contaDeLuz,internet,transporte,lazer,alimentacao){
+    console.log(mes)
+    let saldo= saldoIncial+(salario-aluguel-contaDeAgua-contaDeLuz-internet-transporte-lazer-transporte-alimentacao);
+    let saldoNegativo= saldo < 0;
     if(saldoNegativo){
         let juros=calcularJuros(saldo);
-        saldo=saldo+juros
+        saldo=arredondar(saldo+juros)
     }else{
         let rendimento=calcularRendimentos(saldo);
-        saldo=saldo+rendimento
+        saldo=arredondar(saldo+rendimento)
     }
     return saldo
 }
@@ -66,7 +70,7 @@ const lazer1=300;
 const alimentacao1=500;
 
 
-let saldoDeJaniero=calcularSaldo(salario1,aluguel1
+let saldoDeJaniero=calcularSaldo("janeiro",0,salario1,aluguel1
     ,contaDeAgua1,contaDeLuz1,internet1,transporte1,lazer1,alimentacao1)
 console.log(saldoDeJaniero)
 
@@ -80,8 +84,26 @@ const transporte2=500;
 const lazer2=0;
 const alimentacao2=1000;
 
-let saldoDeFevereiro=calcularSaldo(salario2,aluguel2,contaDeAgua2,contaDeLuz2,internet2,transporte2,lazer2,alimentacao2);
+let saldoDeFevereiro=calcularSaldo("fevereiro",saldoDeJaniero,salario2,aluguel2,contaDeAgua2,contaDeLuz2,internet2,transporte2,lazer2,alimentacao2);
 console.log(saldoDeFevereiro)
+
+// Dados de Março
+const salario3=4000;
+const aluguel3=1200;
+const contaDeLuz3=200;
+const contaDeAgua3=100;
+const internet3=200;
+const transporte3=500;
+const lazer3=800;
+const alimentacao3=1000;
+
+
+
+console.log("Saldo  do ano")
+const saldoAcumuladoAno=saldoDeJaniero+saldoDeFevereiro
+console.log(saldoAcumuladoAno)
+
+
 /*
 
 
