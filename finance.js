@@ -37,7 +37,6 @@ alimentação:1000
 function arredondar(valor){
     return Math.round(valor*100)/100;
 }
-
 function calcularJuros(valor){
     return arredondar(valor * 0.1);
 }
@@ -45,11 +44,12 @@ function calcularRendimentos(valor){
     return arredondar(valor * 0.005);
 }
 
-
-function calcularSaldo(mes,saldoIncial=0,salario,aluguel,contaDeAgua,contaDeLuz,internet,transporte,lazer,alimentacao){
+function calcularSaldo(mes,saldoIncial,lancamentos){
     console.log(mes)
-    let saldo= saldoIncial+(salario-aluguel-contaDeAgua-contaDeLuz-internet-transporte-lazer-transporte-alimentacao);
+    let saldo= saldoIncial;
+    saldo += lancamentos.reduce((acumulador,valor)=>acumulador+valor,0);
     let saldoNegativo= saldo < 0;
+    
     if(saldoNegativo){
         let juros=calcularJuros(saldo);
         saldo=arredondar(saldo+juros)
@@ -59,48 +59,26 @@ function calcularSaldo(mes,saldoIncial=0,salario,aluguel,contaDeAgua,contaDeLuz,
     }
     return saldo
 }
-
-const salario1=3000;
-const aluguel1=1000;
-const contaDeLuz1=200;
-const contaDeAgua1=100;
-const internet1=100;
-const transporte1=300;
-const lazer1=300;
-const alimentacao1=500;
-
-
-let saldoDeJaniero=calcularSaldo("janeiro",0,salario1,aluguel1
-    ,contaDeAgua1,contaDeLuz1,internet1,transporte1,lazer1,alimentacao1)
+let saldoIncial=0;
+// Dados de Janeiro
+const lancamentoJaneiro=[3000, -1000,-200,-100,-100,-300,-300,-500,-300,-100];
+let saldoDeJaniero=calcularSaldo("janeiro",saldoIncial,lancamentoJaneiro)
+console.log("========= Saldo de Janiero ==========");
 console.log(saldoDeJaniero)
-
 // Dados de Fevereiro
-const salario2=3000;
-const aluguel2=1200;
-const contaDeLuz2=250;
-const contaDeAgua2=100;
-const internet2=100;
-const transporte2=500;
-const lazer2=0;
-const alimentacao2=1000;
-
-let saldoDeFevereiro=calcularSaldo("fevereiro",saldoDeJaniero,salario2,aluguel2,contaDeAgua2,contaDeLuz2,internet2,transporte2,lazer2,alimentacao2);
+const lancamentoFevereiro=[3000,-1200,-250,-100,-100,-500,0,-1000,-400,0];
+let saldoDeFevereiro=calcularSaldo("fevereiro",saldoIncial,lancamentoFevereiro);
+console.log("========= Saldo de Fevereiro ==========");
 console.log(saldoDeFevereiro)
 
 // Dados de Março
-const salario3=4000;
-const aluguel3=1200;
-const contaDeLuz3=200;
-const contaDeAgua3=100;
-const internet3=200;
-const transporte3=500;
-const lazer3=800;
-const alimentacao3=1000;
-
-
-
+const lancamentoMarco=[4000,-1200,-200,-100,-200,-500,-800,-1000,-400,0];
+const saldoDeMarco=calcularSaldo("março",saldoIncial,lancamentoMarco);
+console.log("========= Saldo de Março ==========");
+console.log(saldoDeMarco)
+console.log('============================================')
 console.log("Saldo  do ano")
-const saldoAcumuladoAno=saldoDeJaniero+saldoDeFevereiro
+const saldoAcumuladoAno=saldoDeJaniero+saldoDeFevereiro +saldoDeMarco;
 console.log(saldoAcumuladoAno)
 
 
