@@ -47,6 +47,55 @@ const Lancamento = class{
     
 }
 
+const Mes=class{
+    constructor(nome,saldoIncial){
+        if(nome ===""){
+            throw new Error(" Mês invalido: O nome é Obrigatório");
+        }
+        this.nome=nome;
+        this.saldoIncial=saldoIncial;
+        this.totalDoMes={
+            saldo:0, saldoIncial,juros:0,rendimento:0,
+            receitas:0,despesas:0,destribuicaoDespesas:[]};
+        this.lancamentos=[]
+
+    }
+     adicionarLancamento (lancamento) {
+        this.lancamentos.push(lancamento);
+    }
+     calcularSaldo(){
+        console.log(this.nome)
+        this.totalDoMes.saldo=  this.saldoIncial;
+    
+        for(const lancamento of this.lancamentos){
+            if(lancamento.tipo==="receita"){
+                this.totalDoMes.saldo += lancamento.valor;
+                this.totalDoMes.receitas+=lancamento.valor
+            }else{
+                this.totalDoMes.saldo -=lancamento.valor;
+                this.totalDoMes.despesas+=lancamento.valor;
+    
+            }
+        }
+    
+        this.totalDoMes.destribuicaoDespesas= destribuirDespesas(this.lancamentos,this.totalDoMes.despesas);
+    
+        const saldoNegativo= this.totalDoMes.saldo < 0;
+        if(saldoNegativo){
+            this.totalDoMes.juros=calcularJuros(this.totalDoMes.saldo);
+            this.totalDoMes.saldo=arredondar(this.totalDoMes.saldo+ this.totalDoMes.juros)
+        }else{
+            this.totalDoMes.rendimento=calcularRendimentos(this.totalDoMes.saldo);
+            this.totalDoMes.saldo=arredondar(this.totalDoMes.saldo+this.totalDoMes.rendimento)
+        }
+    }
+}
+
+
+
+
+
+
 function arredondar(valor){
     return Math.round(valor*100)/100;
 }
@@ -57,10 +106,10 @@ function calcularRendimentos(valor){
     return arredondar(valor * 0.005);
 }
 function destribuirDespesas(lancamentos,totalDespesas){
-    let destribuicaoDespesas=[]
-    for(lancamento of lancamentos){
+    const destribuicaoDespesas=[]
+    for(const lancamento of lancamentos){
         if(lancamento.tipo==="despesa"){
-            let percetangensDasDespesas=arredondar((lancamento.valor/totalDespesas)*100)
+            const percetangensDasDespesas=arredondar((lancamento.valor/totalDespesas)*100)
             destribuicaoDespesas.push(
                 {categoria:lancamento.categoria,percetual:percetangensDasDespesas}
             )
@@ -69,38 +118,37 @@ function destribuirDespesas(lancamentos,totalDespesas){
     return destribuicaoDespesas
 }
 
+// function calcularSaldo(mes,saldoIncial,lancamentos){
+//     console.log(mes)
+//     const totalDoMes={
+//         saldo:0, saldoIncial,juros:0,rendimento:0,
+//         receitas:0,despesas:0,destribuicaoDespesas:[]};
+//     totalDoMes.saldo= saldoIncial;
 
-function calcularSaldo(mes,saldoIncial,lancamentos){
-    console.log(mes)
-    let totalDoMes={
-        saldo:0, saldoIncial,juros:0,rendimento:0,
-        receitas:0,despesas:0,destribuicaoDespesas:[]};
-    totalDoMes.saldo= saldoIncial;
+//     for(const lancamento of lancamentos){
+//         if(lancamento.tipo==="receita"){
+//             totalDoMes.saldo += lancamento.valor;
+//             totalDoMes.receitas+=lancamento.valor
+//         }else{
+//             totalDoMes.saldo -=lancamento.valor;
+//             totalDoMes.despesas+=lancamento.valor;
 
-    for(lancamento of lancamentos){
-        if(lancamento.tipo==="receita"){
-            totalDoMes.saldo += lancamento.valor;
-            totalDoMes.receitas+=lancamento.valor
-        }else{
-            totalDoMes.saldo -=lancamento.valor;
-            totalDoMes.despesas+=lancamento.valor;
+//         }
+//     }
 
-        }
-    }
+//     totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
 
-    totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
+//     let saldoNegativo= totalDoMes.saldo < 0;
+//     if(saldoNegativo){
+//         totalDoMes.juros=calcularJuros(totalDoMes.saldo);
+//         totalDoMes.saldo=arredondar(totalDoMes.saldo+ totalDoMes.juros)
+//     }else{
+//         totalDoMes.rendimento=calcularRendimentos(totalDoMes.saldo);
+//         totalDoMes.saldo=arredondar(totalDoMes.saldo+totalDoMes.rendimento)
+//     }
+//     return totalDoMes
+// }
 
-    let saldoNegativo= totalDoMes.saldo < 0;
-    if(saldoNegativo){
-        totalDoMes.juros=calcularJuros(totalDoMes.saldo);
-        totalDoMes.saldo=arredondar(totalDoMes.saldo+ totalDoMes.juros)
-    }else{
-        totalDoMes.rendimento=calcularRendimentos(totalDoMes.saldo);
-        totalDoMes.saldo=arredondar(totalDoMes.saldo+totalDoMes.rendimento)
-    }
-    return totalDoMes
-}
-let saldoIncial=0;
 // Dados de Janeiro
 const lancamentoJaneiro=[
     new Lancamento("Salario","receita",3000),
@@ -114,100 +162,17 @@ const lancamentoJaneiro=[
     new Lancamento("Condomínio","despesa",300),
     new Lancamento("Farmácia","despesa",100)
 ];
-let saldoDeJaniero=calcularSaldo("janeiro",saldoIncial,lancamentoJaneiro)
-console.log("========= Saldo de Janiero ==========");
-console.log(saldoDeJaniero)
-// Dados de Fevereiro
-const lancamentoFevereiro=[
-    new Lancamento("Salario","receita",10000),
-    new Lancamento("Aluguel","despesa",1200),
-    new Lancamento("Conta de Luz","despesa",250),
-    new Lancamento("Conta de Água","despesa",100),
-    new Lancamento("Internet","despesa",200),
-    new Lancamento("Transporte","despesa",500),
-    new Lancamento("Lazer","despesa",800),
-    new Lancamento("Alimentação","despesa",1000),
-    new Lancamento("Condomínio","despesa",400),
-    new Lancamento("Farmácia","despesa",01)
-];
-let saldoDeFevereiro=calcularSaldo("fevereiro",saldoDeJaniero.saldo,lancamentoFevereiro);
-console.log("========= Saldo de Fevereiro ==========");
-console.log(saldoDeFevereiro)
-
-// Dados de Março
-const lancamentoMarco=[
-    new Lancamento("Salario","receita",4000),
-    new Lancamento("Aluguel","despesa",1200),
-    new Lancamento("Conta de Luz","despesa",200),
-    new Lancamento("Conta de Água","despesa",100),
-    new Lancamento("Internet","despesa",200),
-    new Lancamento("Transporte","despesa",500),
-    new Lancamento("Lazer","despesa",800),
-    new Lancamento("Alimentação","despesa",1000),
-    new Lancamento("Condomínio","despesa",400),
-    new Lancamento("Farmácia","despesa",200)
-];
-const saldoDeMarco=calcularSaldo("março",saldoDeFevereiro.saldo,lancamentoMarco);
-console.log("========= Saldo de Março ==========");
-console.log(saldoDeMarco)
-console.log('============================================')
-console.log("Saldo  do ano")
-const saldoAcumuladoAno=saldoDeJaniero.saldo+saldoDeFevereiro.saldo +saldoDeMarco.saldo;
-console.log(saldoAcumuladoAno)
-/*
-
-
-let saldo1=(salario1-aluguel1-contaDeLuz1-contaDeAgua1-internet1-transporte1-lazer1-alimentacao1);
-let saldoNegativo1=saldo1<0;
-console.log("Saldo de Janeiro")
-console.log(saldo1)
-
-if(saldoNegativo1){
-    console.log("Em Janiero o saldo é negativo")
-    console.log("Juros de Janeiro",saldo1 *0.1)
-    let juros1=calcularJuros(saldo1);
-    saldo1=saldo1 + juros1;
-}else{
-    console.log("Em Janiero o saldo é positivo")
-    console.log( "Rendimento de Janeiro ",saldo1 * 0.005)
-    let rendimento1=calcularRendimentos(saldo1)
-    saldo1=saldo1+rendimento1; 
-}
-console.log("Saldo de Janeiro", saldo1);
-
-
-const salario2=3000;
-const aluguel2=1200;
-const contaDeLuz2=250;
-const contaDeAgua2=100;
-const internet2=100;
-const transporte2=500;
-const lazer2=0;
-const alimentacao2=1000;
-
-let saldo2=(salario2-aluguel2-contaDeLuz2-contaDeAgua2-internet2-transporte2-lazer2-alimentacao2);
-let saldoNegativo2=saldo2<0;
-console.log("===========================")
-console.log("Saldo de Fevereiro")
-console.log(saldo2)
-
-if(saldoNegativo2){
-    console.log("Em Fevereiro o saldo é negativo")
-   
-    console.log("Juros de Janeiro",saldo2 *0.10)
-    let juros2=calcularJuros(saldo2)
-    saldo2=saldo2 + juros2
-}else{
-    console.log("Em Fevereiro o saldo é positivo")
-    console.log( "Rendimento de Janeiro ",saldo2 * 0.005)
-    let rendimento2=calcularRendimentos(saldo2)
-    saldo2=saldo2+rendimento2
-
-}
-const saldoAcumuladoAno=(saldo1+saldo2);
-console.log("Saldo de Fevereiro", saldo2);
-console.log("==========================");
-
-console.log("Saldo Acumulado Anual ")
-console.log(saldoAcumuladoAno)
-*/
+let saldoIncial=0;
+const janeiro=new Mes("janeiro",saldoIncial);
+janeiro.adicionarLancamento(new Lancamento("Salario","receita",3000))
+janeiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1000))
+janeiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
+janeiro.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
+janeiro.adicionarLancamento(new Lancamento("Internet","despesa",100))
+janeiro.adicionarLancamento(new Lancamento("Transporte","despesa",300))
+janeiro.adicionarLancamento(new Lancamento("Lazer","despesa",300))
+janeiro.adicionarLancamento(new Lancamento("Alimentação","despesa",500))
+janeiro.adicionarLancamento(new Lancamento("Condomínio","despesa",300))
+janeiro.adicionarLancamento(new Lancamento("Farmácia","despesa",100))
+janeiro.calcularSaldo()
+console.log(janeiro);
