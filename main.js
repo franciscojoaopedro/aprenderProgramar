@@ -1,36 +1,4 @@
 
-// function calcularSaldo(mes,saldoIncial,lancamentos){
-//     console.log(mes)
-//     const totalDoMes={
-//         saldo:0, saldoIncial,juros:0,rendimento:0,
-//         receitas:0,despesas:0,destribuicaoDespesas:[]};
-//     totalDoMes.saldo= saldoIncial;
-
-//     for(const lancamento of lancamentos){
-//         if(lancamento.tipo==="receita"){
-//             totalDoMes.saldo += lancamento.valor;
-//             totalDoMes.receitas+=lancamento.valor
-//         }else{
-//             totalDoMes.saldo -=lancamento.valor;
-//             totalDoMes.despesas+=lancamento.valor;
-
-//         }
-//     }
-
-//     totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
-
-//     let saldoNegativo= totalDoMes.saldo < 0;
-//     if(saldoNegativo){
-//         totalDoMes.juros=calcularJuros(totalDoMes.saldo);
-//         totalDoMes.saldo=arredondar(totalDoMes.saldo+ totalDoMes.juros)
-//     }else{
-//         totalDoMes.rendimento=calcularRendimentos(totalDoMes.saldo);
-//         totalDoMes.saldo=arredondar(totalDoMes.saldo+totalDoMes.rendimento)
-//     }
-//     return totalDoMes
-// }
-
-// Dados de Janeiro
 const lancamentoJaneiro=[
     new Lancamento("Salario","receita",3000),
     new Lancamento("Aluguel","despesa",1000),
@@ -85,5 +53,4 @@ marco.adicionarLancamento(new Lancamento("Alimentação","despesa",1000))
 marco.adicionarLancamento(new Lancamento("Condomínio","despesa",400))
 marco.calcularSaldo()
 arredondar(marco.totalDoMes.saldo);
-
 console.log(marco);

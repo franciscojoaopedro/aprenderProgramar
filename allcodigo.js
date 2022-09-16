@@ -61,6 +61,41 @@ if(saldoNegativo1){
 }
 console.log("Saldo de Janeiro", saldo1);
 
+/*
+Janeiro
+salario: 3000
+aluguel:1000
+conta de luz:200
+conta de água:100
+internet:100
+transporte:300
+lazer:300
+alimentação:1000
+*/
+/*
+Fevereiro
+salario: 3000
+
+Março
+salario: 4000
+aluguel:1200
+conta de luz:250
+conta de água:100
+internet:100
+transporte:500
+lazer:0
+alimentação:1000
+*/
+/*
+aluguel:1200
+conta de luz:250
+conta de água:100
+internet:100
+transporte:500
+lazer:0
+alimentação:1000
+*/
+/*
 
 const salario2=3000;
 const aluguel2=1200;
@@ -97,3 +132,38 @@ console.log("==========================");
 console.log("Saldo Acumulado Anual ")
 console.log(saldoAcumuladoAno)
 */
+
+
+
+// function calcularSaldo(mes,saldoIncial,lancamentos){
+//     console.log(mes)
+//     const totalDoMes={
+//         saldo:0, saldoIncial,juros:0,rendimento:0,
+//         receitas:0,despesas:0,destribuicaoDespesas:[]};
+//     totalDoMes.saldo= saldoIncial;
+
+//     for(const lancamento of lancamentos){
+//         if(lancamento.tipo==="receita"){
+//             totalDoMes.saldo += lancamento.valor;
+//             totalDoMes.receitas+=lancamento.valor
+//         }else{
+//             totalDoMes.saldo -=lancamento.valor;
+//             totalDoMes.despesas+=lancamento.valor;
+
+//         }
+//     }
+
+//     totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
+
+//     let saldoNegativo= totalDoMes.saldo < 0;
+//     if(saldoNegativo){
+//         totalDoMes.juros=calcularJuros(totalDoMes.saldo);
+//         totalDoMes.saldo=arredondar(totalDoMes.saldo+ totalDoMes.juros)
+//     }else{
+//         totalDoMes.rendimento=calcularRendimentos(totalDoMes.saldo);
+//         totalDoMes.saldo=arredondar(totalDoMes.saldo+totalDoMes.rendimento)
+//     }
+//     return totalDoMes
+// }
+
+// Dados de Janeiro
