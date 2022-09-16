@@ -24,10 +24,10 @@ janeiro.adicionarLancamento(new Lancamento("Alimentação","despesa",500))
 janeiro.adicionarLancamento(new Lancamento("Condomínio","despesa",300))
 janeiro.adicionarLancamento(new Lancamento("Farmácia","despesa",100))
 janeiro.calcularSaldo()
-arredondar(janeiro.totalDoMes.saldo);
+arredondar(janeiro.totalizador.saldo);
 console.log(janeiro);
 
-const fevereiro= await new Mes("favereiro",janeiro.totalDoMes.saldo);
+const fevereiro= await new Mes("favereiro",janeiro.totalizador.saldo);
 fevereiro.adicionarLancamento(new Lancamento("Salario","receita",3000))
 fevereiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 fevereiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",250))
@@ -37,11 +37,11 @@ fevereiro.adicionarLancamento(new Lancamento("Transporte","despesa",500))
 fevereiro.adicionarLancamento(new Lancamento("Alimentação","despesa",1000))
 fevereiro.adicionarLancamento(new Lancamento("Condomínio","despesa",400))
 fevereiro.calcularSaldo()
-arredondar(fevereiro.totalDoMes.saldo);
+arredondar(fevereiro.totalizador.saldo);
 
 console.log(fevereiro);
 
-const marco= await new Mes("março",fevereiro.totalDoMes.saldo);
+const marco= await new Mes("março",fevereiro.totalizador.saldo);
 marco.adicionarLancamento(new Lancamento("Salario","receita",4000))
 marco.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 marco.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
@@ -52,5 +52,5 @@ marco.adicionarLancamento(new Lancamento("Lazer","despesa",800))
 marco.adicionarLancamento(new Lancamento("Alimentação","despesa",1000))
 marco.adicionarLancamento(new Lancamento("Condomínio","despesa",400))
 marco.calcularSaldo()
-arredondar(marco.totalDoMes.saldo);
+arredondar(marco.totalizador.saldo);
 console.log(marco);

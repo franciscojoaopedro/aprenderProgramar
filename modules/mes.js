@@ -1,12 +1,12 @@
 const Mes=class{
-    constructor(nome,saldoIncial){
+    constructor(nome){
         if(nome ===""){
             throw new Error(" Mês invalido: O nome é Obrigatório");
         }
         this.nome=nome;
-        this.saldoIncial=saldoIncial;
-        this.totalDoMes={
-            saldo:0, saldoIncial,juros:0,rendimento:0,
+        this.saldoIncial=0;
+        this.totalizador={
+            saldo:0,juros:0,rendimento:0,
             receitas:0,despesas:0,destribuicaoDespesas:[]};
         this.lancamentos=[]
 
@@ -24,34 +24,34 @@ const Mes=class{
         const destribuicaoDespesas=[]
         for(const lancamento of this.lancamentos){
             if(lancamento.tipo==="despesa"){
-                const percetangensDasDespesas=arredondar((lancamento.valor/this.totalDoMes.despesas)*100)
+                const percetangensDasDespesas=arredondar((lancamento.valor/this.totalizador.despesas)*100)
                 destribuicaoDespesas.push(
                     {categoria:lancamento.categoria,percetual:percetangensDasDespesas}
                 )
             }
         }
-        this.totalDoMes.destribuicaoDespesas= destribuicaoDespesas;
+        this.totalizador.destribuicaoDespesas= destribuicaoDespesas;
     }
     // Apurar juros
     apurarJures(){
-        if(this.totalDoMes.saldo < 0){
-            this.totalDoMes.juros=this.calcularJuros(this.totalDoMes.saldo);
-            this.totalDoMes.saldo=arredondar(this.totalDoMes.saldo+ this.totalDoMes.juros)
+        if(this.totalizador.saldo < 0){
+            this.totalizador.juros=this.calcularJuros(this.totalizador.saldo);
+            this.totalizador.saldo=arredondar(this.totalizador.saldo+ this.totalizador.juros)
         }
     }
     //Apurar Rendimentos
     apurarRedimentos(){
-        if(this.totalDoMes.saldo > 0){
-            this.totalDoMes.rendimento=this.calcularRendimentos(this.totalDoMes.saldo);
-            this.totalDoMes.saldo=arredondar(this.totalDoMes.saldo+this.totalDoMes.rendimento)
+        if(this.totalizador.saldo > 0){
+            this.totalizador.rendimento=this.calcularRendimentos(this.totalizador.saldo);
+            this.totalizador.saldo=arredondar(this.totalizador.saldo+this.totalizador.rendimento)
         }
     }
     // Apurar as receitas
     apurarDespesas(){
         for( const lancamento of this.lancamentos){
             if(lancamento.tipo==="despesa"){
-                this.totalDoMes.saldo -=lancamento.valor;
-                this.totalDoMes.despesas+=lancamento.valor;
+                this.totalizador.saldo -=lancamento.valor;
+                this.totalizador.despesas+=lancamento.valor;
                 }
             }
     }
@@ -59,19 +59,22 @@ const Mes=class{
     apurarReceitas(){
         for(const lancamento of this.lancamentos){
             if(lancamento.tipo==="receita"){
-                this.totalDoMes.saldo += lancamento.valor;
-                this.totalDoMes.receitas+=lancamento.valor;
+                this.totalizador.saldo += lancamento.valor;
+                this.totalizador.receitas+=lancamento.valor;
                 }
         }
     }
 
     calcularSaldo(){
         console.log(this.nome)
-        this.totalDoMes.saldo=  this.saldoIncial;
-        this.apurarReceitas()
-        this.apurarDespesas()
-        this.destribuirDespesas()
-        this.apurarJures()
+        this.totalizador={
+            saldo:0,juros:0,rendimento:0,
+            receitas:0,despesas:0,destribuicaoDespesas:[]};
+        this.totalizador.saldo=  this.saldoIncial;
+        this.apurarReceitas();
+        this.apurarDespesas();
+        this.destribuirDespesas();
+        this.apurarJures();
         this.apurarRedimentos();
     }
 
