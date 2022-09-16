@@ -56,6 +56,19 @@ function calcularJuros(valor){
 function calcularRendimentos(valor){
     return arredondar(valor * 0.005);
 }
+function destribuirDespesas(lancamentos,totalDespesas){
+    let destribuicaoDespesas=[]
+    for(lancamento of lancamentos){
+        if(lancamento.tipo==="despesa"){
+            let percetangensDasDespesas=arredondar((lancamento.valor/totalDespesas)*100)
+            destribuicaoDespesas.push(
+                {categoria:lancamento.categoria,percetual:percetangensDasDespesas}
+            )
+        }
+    }
+    return destribuicaoDespesas
+}
+
 
 function calcularSaldo(mes,saldoIncial,lancamentos){
     console.log(mes)
@@ -75,13 +88,7 @@ function calcularSaldo(mes,saldoIncial,lancamentos){
         }
     }
 
-    for( lancamento of lancamentos){
-        if(lancamento.tipo==="despesa"){
-            const percentagensDasDespesas=arredondar((lancamento.valor/totalDoMes.despesas)*100);
-            totalDoMes.destribuicaoDespesas.push({categoria:lancamento.categoria, percentual:percentagensDasDespesas})
-
-        }
-    }
+    totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
 
     let saldoNegativo= totalDoMes.saldo < 0;
     if(saldoNegativo){
