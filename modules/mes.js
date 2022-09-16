@@ -66,7 +66,6 @@ const Mes=class{
     }
 
     calcularSaldo(){
-        console.log(this.nome)
         this.totalizador={
             saldo:0,juros:0,rendimento:0,
             receitas:0,despesas:0,destribuicaoDespesas:[]};

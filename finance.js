@@ -1,3 +1,4 @@
+const app=document.querySelector('#app')
 // function calcularSaldo(mes,saldoIncial,lancamentos){
 //     console.log(mes)
 //     const totalDoMes={
@@ -58,7 +59,7 @@ janeiro.adicionarLancamento(new Lancamento("Farmácia","despesa",100))
 
 
 
-const fevereiro= await new Mes("favereiro");
+const fevereiro=  new Mes("favereiro");
 fevereiro.adicionarLancamento(new Lancamento("Salario","receita",3000))
 fevereiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 fevereiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",250))
@@ -69,7 +70,7 @@ fevereiro.adicionarLancamento(new Lancamento("Alimentação","despesa",1000))
 fevereiro.adicionarLancamento(new Lancamento("Condomínio","despesa",400))
 
 
-const marco= await new Mes("março");
+const marco=  new Mes("março");
 marco.adicionarLancamento(new Lancamento("Salario","receita",4000))
 marco.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 marco.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
@@ -86,15 +87,33 @@ ano.adicionarMes(janeiro);
 ano.adicionarMes(fevereiro);
 ano.adicionarMes(marco);
 ano.calcularSaldo()
-console.log(janeiro)
-console.log(fevereiro)
-console.log(marco)
+
 janeiro.adicionarLancamento(new Lancamento("Escola","despesa",500))
 fevereiro.adicionarLancamento(new Lancamento("Escola","despesa",400))
 marco.adicionarLancamento(new Lancamento("Escola","despesa",500))
 ano.calcularSaldo();
+console.log(ano.meses)
 
 
+const addElement=(parent,elementType,text)=>{
+    const element=document.createElement(elementType);
+    if(text !=="" && text !== undefined && text !==null && text !== 0){
+        element.innerText=text
+    }
+    parent.appendChild(element);
+}
+
+const renderizar=()=>{
+    for(const mes of ano.meses){
+        addElement(app,"h3",mes.nome)
+        for(const lancamento of mes.lancamentos){
+            addElement(app,'p',`${lancamento.tipo} :${lancamento.valor}  ${lancamento.categoria}`) 
+        }
+        addElement(app,"h4",mes.totalizador.saldo)
+        addElement(app,"hr")
+    }
+}
+renderizar()
 
 
 
