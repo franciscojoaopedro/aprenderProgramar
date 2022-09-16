@@ -10,6 +10,21 @@ transporte:300
 lazer:300
 alimentação:1000
 */
+
+/*
+lancamentos.reduce((valorAcumulado,lancamento)=>{
+        if(lancamento.tipo==="receita"){
+            let novoSaldo=(valorAcumulado+lancamento.valor)
+            console.log(lancamento)
+            return saldo+= novoSaldo
+           
+        }
+        if(lancamento.tipo==="despesa"){
+            let novoSaldo=(valorAcumulado+lancamento.valor)
+            console.log(lancamento)
+            return saldo-= novoSaldo
+        }
+    },0)
 /*
 Fevereiro
 salario: 3000
