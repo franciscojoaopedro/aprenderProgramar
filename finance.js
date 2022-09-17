@@ -52,16 +52,16 @@ let saldoIncial=0;
 const janeiro= new Mes("janeiro");
 janeiro.adicionarLancamento(new Lancamento ("Salario","receita",3000))
 janeiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1000))
-// janeiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
-// janeiro.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
-// janeiro.adicionarLancamento(new Lancamento("Internet","despesa",100))
-// janeiro.adicionarLancamento(new Lancamento("Transporte","despesa",300))
-// janeiro.adicionarLancamento(new Lancamento("Lazer","despesa",300))
+janeiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
+janeiro.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
+janeiro.adicionarLancamento(new Lancamento("Internet","despesa",100))
+janeiro.adicionarLancamento(new Lancamento("Transporte","despesa",300))
+janeiro.adicionarLancamento(new Lancamento("Lazer","despesa",300))
 // janeiro.adicionarLancamento(new Lancamento("Alimentação","despesa",500))
 // janeiro.adicionarLancamento(new Lancamento("Condomínio","despesa",300))
 // janeiro.adicionarLancamento(new Lancamento("Farmácia","despesa",100))
 
-const fevereiro=  new Mes("favereiro");
+const fevereiro=  new Mes("fevereiro");
 fevereiro.adicionarLancamento(new Lancamento("Salario","receita",3000))
 fevereiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 fevereiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",250))
@@ -78,8 +78,8 @@ marco.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
 // marco.adicionarLancamento(new Lancamento("Internet","despesa",200))
 // marco.adicionarLancamento(new Lancamento("Transporte","despesa",500))
 // marco.adicionarLancamento(new Lancamento("Lazer","despesa",800));
-// marco.adicionarLancamento(new Lancamento("Alimentação","despesa",1000));
-// marco.adicionarLancamento(new Lancamento("Condomínio","despesa",400));
+marco.adicionarLancamento(new Lancamento("Alimentação","despesa",1000));
+marco.adicionarLancamento(new Lancamento("Condomínio","despesa",400));
 
 
 const ano=new Ano()
@@ -110,23 +110,54 @@ const renderizar=()=>{
     const painel=document.createElement('div');
     for(const mes of ano.meses){
         addElement(painel,"h3",mes.nome)
+        const tabelaLancamentos=document.createElement('table');
+        tabelaLancamentos.className="tabela-lancamentos"
+        const linhaTitulo=document.createElement('tr');
+        addElement(linhaTitulo,"th","Tipo");
+        addElement(linhaTitulo,"th","Categoria");
+        addElement(linhaTitulo,"th","Valor");
+        tabelaLancamentos.appendChild(linhaTitulo);
+
         for(const lancamento of mes.lancamentos){
-            addElement(painel,'p',`${lancamento.tipo} :${lancamento.valor}  ${lancamento.categoria}`) 
+            const linhaLancamento=document.createElement('tr');
+            addElement(linhaLancamento,"td",lancamento.tipo);
+            addElement(linhaLancamento,"td",lancamento.categoria);
+            addElement(linhaLancamento,"td",formatarDinheiro(lancamento.valor));
+            tabelaLancamentos.appendChild(linhaLancamento)
+           // addElement(painel,'p',`${lancamento.tipo} :${lancamento.valor}  ${lancamento.categoria}`) 
         }
-        addElement(painel,"h4",mes.totalizador.saldo)
-        addElement(painel,"hr")
+
+        const linhaJures=document.createElement('tr');
+        addElement(linhaJures,"th","Jures");
+        addElement(linhaJures,"th",formatarDinheiro(mes.totalizador.juros));
+        tabelaLancamentos.appendChild(linhaJures);
+
+
+        const linhaRendimentos=document.createElement('tr');
+        addElement(linhaRendimentos,"th","Rendimento");
+        addElement(linhaRendimentos,"th",formatarDinheiro(mes.totalizador.rendimento));
+        tabelaLancamentos.appendChild(linhaRendimentos);
+
+
+        const linhaSaldo=document.createElement('tr');
+        addElement(linhaSaldo,"th","Total");
+        addElement(linhaSaldo,"th",formatarDinheiro(mes.totalizador.saldo));
+        tabelaLancamentos.appendChild(linhaSaldo);
+        painel.appendChild(tabelaLancamentos)
     }
     app.appendChild(painel)
 }
 
 renderizar();
 const apagarInputsValue=()=>{
-    mes.value="";
-    tipo.value="";
+    mes.value=ano.meses[0].nome;
+    tipo.value="receita";
     valor.value="";
     categoria.value="";
 }
 const adicionarLancamento=()=>{
+    
+
     ano.adicionarLancamento(mes.value,new Lancamento(categoria.value,tipo.value,parseFloat(valor.value)))
     ano.calcularSaldo()
     renderizar()
@@ -138,8 +169,12 @@ btnLancamento.addEventListener('click',(event)=>{
 
 })
 
-
-
+const mesSelceionado=document.querySelector('#mes');
+for(const mes of ano.meses){
+    const option=document.createElement('option');
+    option.text=mes.nome;
+    mesSelceionado.add(option)
+}
 
 
 
