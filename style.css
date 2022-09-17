@@ -66,3 +66,27 @@ select{
     background-color: #ccc;
     width: 50%;
 }
+
+.grafico{
+    width: 600px;
+    height: 200px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.grafico-coluna{
+    width: 150px;
+}
+.grafico-coluna-cor{
+    height: 120px;
+    width: 150px;
+    background: red;
+}
+
+.grafico-coluna-texto{
+    text-align: center;
+}

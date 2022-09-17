@@ -107,7 +107,29 @@ const renderizar=()=>{
     if(app.firstChild){
         app.firstChild.remove();
     }
+
     const painel=document.createElement('div');
+    const cores=["red","yellow","green","blue"];
+    const grafico=document.createElement('div');
+    grafico.className="grafico"
+    for (const mes of ano.meses){
+        const coluna=document.createElement('div');
+        coluna.className="grafico-coluna";
+        const cor=document.createElement('div');
+        cor.style.height=`${(mes.totalizador.saldo *100)/10000}px`
+        cor.style.backgroundColor=cores.pop();
+        coluna.appendChild(cor);
+        const nomeDoMes=document.createElement('div');
+        nomeDoMes.className="grafico-coluna-texto"
+        nomeDoMes.innerText=mes.nome;
+        coluna.appendChild(cor);
+        coluna.appendChild(nomeDoMes);
+        grafico.appendChild(coluna);
+    }
+    painel.appendChild(grafico)
+
+
+
     for(const mes of ano.meses){
         addElement(painel,"h3",mes.nome)
         const tabelaLancamentos=document.createElement('table');
