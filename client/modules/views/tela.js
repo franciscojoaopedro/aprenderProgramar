@@ -24,15 +24,19 @@ const Tela=class{
         this.ano=ano;
         this.renderizar();
     }
+    
     adicionarLancamento=()=>{
             const valor=document.querySelector('#valor');
             const categoria=document.querySelector('#categoria');
             const tipo=document.querySelector('#tipo');
             const mes=document.querySelector('#mes');
                 this.ano.adicionarLancamento(mes.value,new Lancamento(categoria.value,tipo.value,parseFloat(valor.value)))
+                fetch("http://localhost:3000/api/lancamentos/",{method:"post",headers:{"content-type":"application/json"},
+                body: JSON.stringify({mes:mes.value,categoria:categoria.value,tipo:tipo.value,valor:parseFloat(valor.value)
+                })})
                 this.ano.calcularSaldo()
                 this.renderizar()
-                apagarInputsValue();
+                //apagarInputsValue();
             }
     
      renderizar=()=>{
