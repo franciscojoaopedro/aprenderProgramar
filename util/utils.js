@@ -14,3 +14,4 @@ const apagarInputsValue=()=>{
     valor.value="";
     categoria.value="";
 }
+
