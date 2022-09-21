@@ -49,7 +49,7 @@ adicionarLancamento=()=>{
         }
 
  renderizar=()=>{
-   
+   document.querySelector('#app').remove();
     const app=new Div('app');  
     const titulo=new h4('Finanças Pessoais')
     app.adicionarElementFilho(titulo.element);
