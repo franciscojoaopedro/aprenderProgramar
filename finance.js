@@ -1,9 +1,5 @@
 const app=document.querySelector('#app');
-const btnLancamento=document.querySelector('#btn-lancamento');
-const valor=document.querySelector('#valor');
-const categoria=document.querySelector('#categoria');
-const tipo=document.querySelector('#tipo');
-const mes=document.querySelector('#mes');
+
 
 // Dados de Janeiro
 const lancamentoJaneiro=[
@@ -53,38 +49,58 @@ janeiro.adicionarLancamento(new Lancamento("Escola","despesa",500))
 fevereiro.adicionarLancamento(new Lancamento("Escola","despesa",400))
 marco.adicionarLancamento(new Lancamento("Escola","despesa",500))
 ano.calcularSaldo();
-console.log(ano.meses)
 
+const adicionarLancamento=()=>{
 
-const addElement=(parent,elementType,text)=>{
-    const element=document.createElement(elementType);
-    if(text !=="" && text !== undefined && text !==null && text !== 0){
-        element.innerText=text
-    }
-    parent.appendChild(element);
+const valor=document.querySelector('#valor');
+const categoria=document.querySelector('#categoria');
+const tipo=document.querySelector('#tipo');
+const mes=document.querySelector('#mes');
+    ano.adicionarLancamento(mes.value,new Lancamento(categoria.value,tipo.value,parseFloat(valor.value)))
+    ano.calcularSaldo()
+    renderizar()
+    apagarInputsValue();
 }
-
-
-
 
 const renderizar=()=>{
     if(app.firstChild){
         app.firstChild.remove();
     }
 
-    const painel=document.createElement('div');
-    
+    const painel=new Div();
+    const titulo=new h4('Finanças Pessoais')
+    painel.adicionarElementFilho(titulo.element);
+    const form=new Div("form-lancamento");
+    const mesSelect=new Select("mes");
+    for(const mes of ano.meses){
+        mesSelect.addOption(mes.nome)
+    }
+    const tipoSelect=new Select("tipo");
+    tipoSelect.addOption('receita');
+    tipoSelect.addOption('despesa');
+    const valorInputNumber=new Input("valor","number","Valor");
+    const categoriaInputText=new Input("categoria","text","Categoria");
+    const adicionarButton= new Button("btn-lancamento","Adicionar Lançamentos");
+    adicionarButton.addListener(()=>{
+        adicionarLancamento()
+    })
+
+    form.adicionarElementFilho(mesSelect.element);
+    form.adicionarElementFilho(tipoSelect.element);
+    form.adicionarElementFilho(categoriaInputText.element);
+    form.adicionarElementFilho(valorInputNumber.element);
+    form.adicionarElementFilho(adicionarButton.element);
+    painel.adicionarElementFilho(form.element)
     const grafico=new Grafico()
 
     for (const mes of ano.meses){
         grafico.adicionarColuna(mes.totalizador.saldo,mes.nome);
     }
-    painel.appendChild(grafico.element)
-
-
+    painel.adicionarElementFilho(grafico.element)
 
     for(const mes of ano.meses){
-        addElement(painel,"h3",mes.nome)
+        const nomeDoMes=new h4(mes.nome);
+        painel.adicionarElementFilho(nomeDoMes.element)
         const tabelaLancamentos= new Tabela('tabela-lancamentos');
         tabelaLancamentos.addRow("th",["Tipo","Categoria","Valor"])
         for(const lancamento of mes.lancamentos){
@@ -94,49 +110,11 @@ const renderizar=()=>{
         tabelaLancamentos.addRow("th",["Juros",formatarDinheiro(mes.totalizador.juros)])
         tabelaLancamentos.addRow("th",["Redimentos",formatarDinheiro(mes.totalizador.rendimento)])
         tabelaLancamentos.addRow("th",["Total",formatarDinheiro(mes.totalizador.saldo)]);
-        painel.appendChild(tabelaLancamentos.element);
+        painel.adicionarElementFilho(tabelaLancamentos.element);
     }
-    app.appendChild(painel)
+    app.appendChild(painel.element)
 }
 
 renderizar();
-const apagarInputsValue=()=>{
-    mes.value=ano.meses[0].nome;
-    tipo.value="receita";
-    valor.value="";
-    categoria.value="";
-}
-const adicionarLancamento=()=>{
-    
-
-    ano.adicionarLancamento(mes.value,new Lancamento(categoria.value,tipo.value,parseFloat(valor.value)))
-    ano.calcularSaldo()
-    renderizar()
-    apagarInputsValue();
-}
-btnLancamento.addEventListener('click',(event)=>{
-    event.preventDefault();
-    adicionarLancamento()
-
-})
-
-const mesSelceionado=document.querySelector('#mes');
-for(const mes of ano.meses){
-    const option=document.createElement('option');
-    option.text=mes.nome;
-    mesSelceionado.add(option)
-}
 
 
-
-
-
-
-
-
-
-// TESTE IN JS
-console.log("============ TESTE ==============");
-console.log(janeiro.totalizador.saldo===100.5);
-console.log(fevereiro.totalizador.saldo===-494.45);
-console.log(marco.totalizador.saldo===-983.89);

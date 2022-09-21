@@ -8,7 +8,7 @@ const Ano=class{
 
     adicionarLancamento(nomeDoMes,lancamento){
         for(const mes of this.meses){
-            if(mes.nome=nomeDoMes){
+            if(mes.nome===nomeDoMes){
                 mes.adicionarLancamento(lancamento);
                 break;
             }
