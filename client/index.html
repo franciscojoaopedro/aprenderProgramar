@@ -8,21 +8,54 @@
     <title>Controlo Financeiro</title>
 </head>
 <body>
+    <h1>Minhas Finanças</h1>
+    <div id="form-lancamento">
+        <select name="meses" id="mes">
+        </select>
+        <select name="tipo" id="tipo">
+            <option value="receita">receita</option>
+            <option value="despesa">despesa</option>
+        </select>
+        <input  id="categoria" type="text" placeholder="categoria">
+        <input type="number" placeholder="valor" id="valor">
+        <br/>
+        <button id="btn-lancamento">Adicionar Lançamento</button>
+     
+    </div>
+    <!-- <div class="grafico">
+        <div class="grafico-coluna">
+            <div class="grafico-coluna-cor">
+                
+            </div>
+            <div class="grafuco-coluna-texto">
+                Janeiro
+            </div>
+        </div>
+        <div class="grafico-coluna">
+            <div class="grafico-coluna-cor">
+                
+            </div>
+            <div class="grafuco-coluna-texto">
+                Janeiro
+            </div>
+        </div>
+        <div class="grafico-coluna">
+            <div class="grafico-coluna-cor">
+                
+            </div>
+            <div class="grafuco-coluna-texto">
+                Janeiro
+            </div>
+        </div>
+        </div>
+    </div> -->
     <div id="app">
     </div>
     
-    <script src="./modules/domain/lancamento.js" defer ></script>
-    <script src="./modules/domain/mes.js" defer></script>
+    <script src="./modules/lancamento.js" defer ></script>
+    <script src="./modules/mes.js" defer></script>
     <script src="./util/utils.js" defer></script>
-    <script src="./modules/domain/ano.js" defer></script>
-    <script src="./modules/app_components/grafico.js" defer></script>
-    <script src="./modules/base_components/h4.js" defer></script>
-    <script src="./modules/base_components/div.js" defer></script>
-    <script src="./modules/base_components/select.js" defer></script>
-    <script src="./modules/base_components/input.js" defer></script>
-    <script src="./modules/base_components/button.js" defer></script>
-    <script src="./modules/base_components/tabela.js" defer></script>
-    <script src="./modules/views/tela.js" defer></script>
+    <script src="./modules/ano.js" defer></script>
    <script  src="./finance.js" defer ></script>
 </body>
 </html>

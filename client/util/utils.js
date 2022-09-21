@@ -7,11 +7,3 @@ const formatarDinheiro=(valor)=>{
         currency:"AOA",style:"currency"
     }).format(valor)
 }
-
-const apagarInputsValue=()=>{
-    mes.value=ano.meses[0].nome;
-    tipo.value="receita";
-    valor.value="";
-    categoria.value="";
-}
-
