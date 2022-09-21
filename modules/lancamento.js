@@ -9,5 +9,7 @@
         this.tipo=tipo;
         this.valor=valor;
     }
-    
+    getValoString(){
+        return (this.tipo==="despesa")?this.valor * -1: this.valor;
+    }
 }

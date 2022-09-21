@@ -4,36 +4,6 @@ const valor=document.querySelector('#valor');
 const categoria=document.querySelector('#categoria');
 const tipo=document.querySelector('#tipo');
 const mes=document.querySelector('#mes');
-// function calcularSaldo(mes,saldoIncial,lancamentos){
-//     console.log(mes)
-//     const totalDoMes={
-//         saldo:0, saldoIncial,juros:0,rendimento:0,
-//         receitas:0,despesas:0,destribuicaoDespesas:[]};
-//     totalDoMes.saldo= saldoIncial;
-
-//     for(const lancamento of lancamentos){
-//         if(lancamento.tipo==="receita"){
-//             totalDoMes.saldo += lancamento.valor;
-//             totalDoMes.receitas+=lancamento.valor
-//         }else{
-//             totalDoMes.saldo -=lancamento.valor;
-//             totalDoMes.despesas+=lancamento.valor;
-
-//         }
-//     }
-
-//     totalDoMes.destribuicaoDespesas= destribuirDespesas(lancamentos,totalDoMes.despesas);
-
-//     let saldoNegativo= totalDoMes.saldo < 0;
-//     if(saldoNegativo){
-//         totalDoMes.juros=calcularJuros(totalDoMes.saldo);
-//         totalDoMes.saldo=arredondar(totalDoMes.saldo+ totalDoMes.juros)
-//     }else{
-//         totalDoMes.rendimento=calcularRendimentos(totalDoMes.saldo);
-//         totalDoMes.saldo=arredondar(totalDoMes.saldo+totalDoMes.rendimento)
-//     }
-//     return totalDoMes
-// }
 
 // Dados de Janeiro
 const lancamentoJaneiro=[
@@ -57,27 +27,18 @@ janeiro.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
 janeiro.adicionarLancamento(new Lancamento("Internet","despesa",100))
 janeiro.adicionarLancamento(new Lancamento("Transporte","despesa",300))
 janeiro.adicionarLancamento(new Lancamento("Lazer","despesa",300))
-// janeiro.adicionarLancamento(new Lancamento("Alimentação","despesa",500))
-// janeiro.adicionarLancamento(new Lancamento("Condomínio","despesa",300))
-// janeiro.adicionarLancamento(new Lancamento("Farmácia","despesa",100))
 
 const fevereiro=  new Mes("fevereiro");
 fevereiro.adicionarLancamento(new Lancamento("Salario","receita",3000))
 fevereiro.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 fevereiro.adicionarLancamento(new Lancamento("Conta de Luz","despesa",250))
-// fevereiro.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
-// fevereiro.adicionarLancamento(new Lancamento("Internet","despesa",100))
-// fevereiro.adicionarLancamento(new Lancamento("Transporte","despesa",500))
-// fevereiro.adicionarLancamento(new Lancamento("Alimentação","despesa",1000))
-// fevereiro.adicionarLancamento(new Lancamento("Condomínio","despesa",400))
+
 const marco=  new Mes("março");
 marco.adicionarLancamento(new Lancamento("Salario","receita",4000))
 marco.adicionarLancamento(new Lancamento("Aluguel","despesa",1200))
 marco.adicionarLancamento(new Lancamento("Conta de Luz","despesa",200))
 marco.adicionarLancamento(new Lancamento("Conta de Água","despesa",100))
-// marco.adicionarLancamento(new Lancamento("Internet","despesa",200))
-// marco.adicionarLancamento(new Lancamento("Transporte","despesa",500))
-// marco.adicionarLancamento(new Lancamento("Lazer","despesa",800));
+
 marco.adicionarLancamento(new Lancamento("Alimentação","despesa",1000));
 marco.adicionarLancamento(new Lancamento("Condomínio","despesa",400));
 
@@ -103,69 +64,37 @@ const addElement=(parent,elementType,text)=>{
     parent.appendChild(element);
 }
 
+
+
+
 const renderizar=()=>{
     if(app.firstChild){
         app.firstChild.remove();
     }
 
     const painel=document.createElement('div');
-    const cores=["red","yellow","green","blue"];
-    const grafico=document.createElement('div');
-    grafico.className="grafico"
+    
+    const grafico=new Grafico()
+
     for (const mes of ano.meses){
-        const coluna=document.createElement('div');
-        coluna.className="grafico-coluna";
-        const cor=document.createElement('div');
-        cor.style.height=`${(mes.totalizador.saldo *100)/10000}px`
-        cor.style.backgroundColor=cores.pop();
-        coluna.appendChild(cor);
-        const nomeDoMes=document.createElement('div');
-        nomeDoMes.className="grafico-coluna-texto"
-        nomeDoMes.innerText=mes.nome;
-        coluna.appendChild(cor);
-        coluna.appendChild(nomeDoMes);
-        grafico.appendChild(coluna);
+        grafico.adicionarColuna(mes.totalizador.saldo,mes.nome);
     }
-    painel.appendChild(grafico)
+    painel.appendChild(grafico.element)
 
 
 
     for(const mes of ano.meses){
         addElement(painel,"h3",mes.nome)
-        const tabelaLancamentos=document.createElement('table');
-        tabelaLancamentos.className="tabela-lancamentos"
-        const linhaTitulo=document.createElement('tr');
-        addElement(linhaTitulo,"th","Tipo");
-        addElement(linhaTitulo,"th","Categoria");
-        addElement(linhaTitulo,"th","Valor");
-        tabelaLancamentos.appendChild(linhaTitulo);
-
+        const tabelaLancamentos= new Tabela('tabela-lancamentos');
+        tabelaLancamentos.addRow("th",["Tipo","Categoria","Valor"])
         for(const lancamento of mes.lancamentos){
-            const linhaLancamento=document.createElement('tr');
-            addElement(linhaLancamento,"td",lancamento.tipo);
-            addElement(linhaLancamento,"td",lancamento.categoria);
-            addElement(linhaLancamento,"td",formatarDinheiro(lancamento.valor));
-            tabelaLancamentos.appendChild(linhaLancamento)
+            tabelaLancamentos.addRow("td",[lancamento.tipo,lancamento.categoria,formatarDinheiro(lancamento.getValoString())])
            // addElement(painel,'p',`${lancamento.tipo} :${lancamento.valor}  ${lancamento.categoria}`) 
         }
-
-        const linhaJures=document.createElement('tr');
-        addElement(linhaJures,"th","Jures");
-        addElement(linhaJures,"th",formatarDinheiro(mes.totalizador.juros));
-        tabelaLancamentos.appendChild(linhaJures);
-
-
-        const linhaRendimentos=document.createElement('tr');
-        addElement(linhaRendimentos,"th","Rendimento");
-        addElement(linhaRendimentos,"th",formatarDinheiro(mes.totalizador.rendimento));
-        tabelaLancamentos.appendChild(linhaRendimentos);
-
-
-        const linhaSaldo=document.createElement('tr');
-        addElement(linhaSaldo,"th","Total");
-        addElement(linhaSaldo,"th",formatarDinheiro(mes.totalizador.saldo));
-        tabelaLancamentos.appendChild(linhaSaldo);
-        painel.appendChild(tabelaLancamentos)
+        tabelaLancamentos.addRow("th",["Juros",formatarDinheiro(mes.totalizador.juros)])
+        tabelaLancamentos.addRow("th",["Redimentos",formatarDinheiro(mes.totalizador.rendimento)])
+        tabelaLancamentos.addRow("th",["Total",formatarDinheiro(mes.totalizador.saldo)]);
+        painel.appendChild(tabelaLancamentos.element);
     }
     app.appendChild(painel)
 }
