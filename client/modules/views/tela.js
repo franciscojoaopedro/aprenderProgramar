@@ -4,28 +4,27 @@ const Tela=class{
     
     }
     async init (){
-        const response=await fetch("http://localhost:3000/api/lancamentos")
-        const lancamentos=await response.json();
+        const response= await fetch("http://localhost:3000/api/lancamentos/")
+        const lancamentos= await response.json();
+        console.log(lancamentos)
         const ano= new Ano()
         ano.adicionarMes( new Mes("janeiro"))
         ano.adicionarMes( new Mes("fevereiro"))
         ano.adicionarMes( new Mes("março"))
         for(const lancamento of lancamentos){
+            console.log(lancamento.tipo)
             ano.adicionarLancamento(
                 lancamento.mes,
-                new Lancamento(
-                    lancamento.categoria,
-                    lancamento.tipo,
-                    lancamento.valor
+                new Lancamento(lancamento.categoria,lancamento.tipo,lancamento.valor,
                 )
             )
         }
-        ano.calcularSaldo()
+        ano.calcularSaldo();
+        console.log(ano)
         this.ano=ano;
-        this.renderizar()
+        this.renderizar();
     }
     adicionarLancamento=()=>{
-    
             const valor=document.querySelector('#valor');
             const categoria=document.querySelector('#categoria');
             const tipo=document.querySelector('#tipo');

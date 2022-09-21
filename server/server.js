@@ -4,11 +4,11 @@ const app=express();
 app.use(cors())
 app.use("/",express.static("../client"))
 const lancamento=[
-    {mes: "janeiro",cartegoria:"Salario",tipo:"receita",valor:3000},
-    {mes: "janeiro",cartegoria:"Aluguel",tipo:"despesa",valor:1000},
-    {mes: "janeiro",cartegoria:"Conta de Luz",tipo:"despesa",valor:200},
-    {mes: "janeiro",cartegoria:"Conta de Água",tipo: "despesa",valor:100   } ,
-    {mes: "janeiro",cartegoria:"Internet",tipo: "despesa", valor:100  },
+    {mes: "janeiro",categoria:"Salario",tipo:"receita",valor:3000},
+    {mes: "janeiro",categoria:"Aluguel",tipo:"despesa",valor:1000},
+    {mes: "janeiro",categoria:"Conta de Luz",tipo:"despesa",valor:200},
+    {mes: "janeiro",categoria:"Conta de Água",tipo: "despesa",valor:100   } ,
+    {mes: "janeiro",categoria:"Internet",tipo: "despesa", valor:100  },
     {mes:"fevereiro", categoria:"Salario",tipo:"receita",valor:3000},
     {mes:"fevereiro", categoria:"Aluguel",tipo: "despesa",valor:1200},
     {mes:"fevereiro", categoria:"Conta de Luz", tipo:"despesa",valor:250},
