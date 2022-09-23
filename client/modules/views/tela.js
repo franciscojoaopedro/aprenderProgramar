@@ -15,7 +15,7 @@ const Tela=class{
             console.log(lancamento.tipo)
             ano.adicionarLancamento(
                 lancamento.mes,
-                new Lancamento(lancamento.categoria,lancamento.tipo,lancamento.valor,
+                new Lancamento(lancamento.categoria,lancamento.tipo,parseFloat(lancamento.valor),
                 )
             )
         }

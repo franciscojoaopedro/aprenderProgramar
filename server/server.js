@@ -1,33 +1,27 @@
 const express= require ("express");
+
+const pgp=require("pg-promise")
+
 const cors=require("cors");
 const app=express();
 app.use(cors())
 app.use(express.json());
 app.use("/",express.static("../client"))
 
+const connection=pgp()("postgres://postgres:777@localhost:5432/app");
 
-const lancamentos=[
-    {mes: "janeiro",categoria:"Salario",tipo:"receita",valor:3000},
-    {mes: "janeiro",categoria:"Aluguel",tipo:"despesa",valor:1000},
-    {mes: "janeiro",categoria:"Conta de Luz",tipo:"despesa",valor:200},
-    {mes: "janeiro",categoria:"Conta de Água",tipo: "despesa",valor:100   } ,
-    {mes: "janeiro",categoria:"Internet",tipo: "despesa", valor:100  },
-    {mes:"fevereiro", categoria:"Salario",tipo:"receita",valor:3000},
-    {mes:"fevereiro", categoria:"Aluguel",tipo: "despesa",valor:1200},
-    {mes:"fevereiro", categoria:"Conta de Luz", tipo:"despesa",valor:250},
-    {mes:"março", categoria:"Salario",tipo:"receita",valor:4000},
-    {mes:"março", categoria:"Aluguel",tipo:"despesa",valor:1200},
-    {mes:"março", categoria:"Conta de Luz",tipo:"despesa",valor:200},
-    {mes:"março", categoria:"Conta de Água",tipo:"despesa",valor:100},
-]
 
-app.get("/api/lancamentos",(req,res)=>{
+app.get("/api/lancamentos",async (req,res)=>{
+    const lancamentos= await connection.query("select * from financas_pessoais.lancamento")
+   console.log(lancamentos);
     res.json(lancamentos);
 })
 
-app.post("/api/lancamentos",(req,res)=>{
+app.post("/api/lancamentos",async (req,res) =>{
     const lancamento=req.body
-    lancamentos.push(lancamento);
+
+    await connection.query ("INSERT INTO financas_pessoais.lancamento (mes,categoria,tipo,valor) VALUES ($1,$2,$3,$4)",[lancamento.mes,lancamento.categoria,lancamento.tipo,lancamento.valor]);
+
     res.send();
 })
 app.listen(3000)
